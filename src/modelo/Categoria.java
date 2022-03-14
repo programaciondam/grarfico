@@ -4,30 +4,42 @@
  */
 package modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author dam
  */
 public class Categoria {
-   private int codigo;
-   private String denominacion;
+   private int codigoCategoria;
+   private String denominacionCategoria;
+   ArrayList<Curso> cursos;
 
     public Categoria(int codigo, String denominacion) {
-        this.codigo = codigo;
-        this.denominacion = denominacion;
+        this.codigoCategoria = codigo;
+        this.denominacionCategoria = denominacion;
+        cursos=new ArrayList<>();
     }
 
     public int getCodigo() {
-        return codigo;
+        return codigoCategoria;
     }
 
     public String getDenominacion() {
-        return denominacion;
+        return denominacionCategoria;
+    }
+
+    public ArrayList<Curso> getCursos() {
+        return cursos;
     }
 
     @Override
     public String toString() {
-        return "Categoria{" + "denominacion=" + denominacion + '}';
+        return denominacionCategoria;
     }
+
+   public void anadirCurso(String codigoCurso, String denominacionCurso){
+       cursos.add(new Curso(codigoCurso,denominacionCurso));
+   }
    
 }
