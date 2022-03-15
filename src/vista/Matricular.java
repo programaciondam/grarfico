@@ -8,6 +8,7 @@ import controlador.Empresa;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 import modelo.Categoria;
 import modelo.Curso;
@@ -21,6 +22,7 @@ public class Matricular extends javax.swing.JFrame {
     Empresa miEmpresa;
     DefaultComboBoxModel adaptador;
     DefaultListModel adaptadorCursos;
+    DefaultListModel adaptadorCurSel;
 
     /**
      * Creates new form Matricular
@@ -30,9 +32,11 @@ public class Matricular extends javax.swing.JFrame {
         miEmpresa.crearCategorias();
         adaptador = new DefaultComboBoxModel();
         adaptadorCursos = new DefaultListModel();
+        adaptadorCurSel = new DefaultListModel();
         initComponents();
         cmbCategoria.setModel(adaptador);
         lstCursos.setModel(adaptadorCursos);
+        lstSeleccionado.setModel(adaptadorCurSel);
         actualizarCombo();
 
     }
@@ -46,6 +50,8 @@ public class Matricular extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grpBotones = new javax.swing.ButtonGroup();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -56,6 +62,10 @@ public class Matricular extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstSeleccionado = new javax.swing.JList<>();
+        rbContado = new javax.swing.JRadioButton();
+        rbCredito = new javax.swing.JRadioButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,11 +90,26 @@ public class Matricular extends javax.swing.JFrame {
             public String getElementAt(int i) { return strings[i]; }
         });
         lstCursos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstCursos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstCursosValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(lstCursos);
 
         btnAgregar.setText(">>");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("<<");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         lstSeleccionado.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -92,6 +117,19 @@ public class Matricular extends javax.swing.JFrame {
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(lstSeleccionado);
+
+        grpBotones.add(rbContado);
+        rbContado.setSelected(true);
+        rbContado.setText("contado");
+
+        grpBotones.add(rbCredito);
+        rbCredito.setText("credito");
+
+        buttonGroup1.add(jCheckBox1);
+        jCheckBox1.setText("OnLine");
+
+        buttonGroup1.add(jCheckBox2);
+        jCheckBox2.setText("Presencial");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,7 +156,18 @@ public class Matricular extends javax.swing.JFrame {
                             .addComponent(btnAgregar)
                             .addComponent(btnEliminar))
                         .addGap(28, 28, 28)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(86, 86, 86)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(rbContado)
+                                    .addComponent(rbCredito)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -142,8 +191,17 @@ public class Matricular extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane2)
-                            .addComponent(jScrollPane1))))
-                .addContainerGap(43, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(rbContado)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbCredito)
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBox1)
+                            .addComponent(jCheckBox2))))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -162,17 +220,61 @@ public class Matricular extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbCategoriaActionPerformed
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+       int posicion;
+       posicion=lstCursos.getSelectedIndex();
+       if(posicion !=-1){
+        String elemento = (String) adaptadorCursos.get
+        (posicion);
+        adaptadorCurSel.addElement(elemento);}
+       else{
+           JOptionPane.showMessageDialog( this,
+                   " Primero debe de seleccionar un curso",
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
+       }
+        
+      // String elemento2= lstCursos.getSelectedValue();
+     // adaptadorCurSel.addElement(elemento2);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+         int posicion;
+       posicion=lstSeleccionado.getSelectedIndex();
+       if(posicion !=-1){
+        
+        adaptadorCurSel.remove(posicion);}
+       else{
+           JOptionPane.showMessageDialog( this,
+                   " Primero debe de seleccionar un curso",
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void lstCursosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstCursosValueChanged
+        JOptionPane.showMessageDialog(this,
+                "Acabas de seleccionar un elemenbto",
+                "informacion", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_lstCursosValueChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cmbCategoria;
+    private javax.swing.ButtonGroup grpBotones;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> lstCursos;
     private javax.swing.JList<String> lstSeleccionado;
+    private javax.swing.JRadioButton rbContado;
+    private javax.swing.JRadioButton rbCredito;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
@@ -182,5 +284,37 @@ public class Matricular extends javax.swing.JFrame {
         for (int i = 0; i < categorias.length; i++) {
             adaptador.addElement(categorias[i]);
         }
+    }
+
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(VtnLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(VtnLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(VtnLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(VtnLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Matricular().setVisible(true);
+            }
+        });
     }
 }
